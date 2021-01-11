@@ -120,10 +120,10 @@ function updateMs() {
 
 function enforceMinMax(el){
   if(el.value != ""){
-    if(parseInt(el.value) < parseInt(el.min)){
+    if(parseFloat(el.value) < parseFloat(el.min)){
       el.value = el.min;
     }
-    if(parseInt(el.value) > parseInt(el.max)){
+    if(parseFloat(el.value) > parseFloat(el.max)){
       el.value = el.max;
     }
   }
@@ -214,7 +214,9 @@ exponent.addEventListener('change', function () {
 
 powerUp.addEventListener('change', function () {
   enforceMinMax(this);
-  powerupSlider.noUiSlider.set([this.value]);
+  var value = parseFloat(this.value);
+  if(100*value == Math.ceil(100*value)) //slider has 2 decimal points resolution
+    powerupSlider.noUiSlider.set([this.value]);
   updateMs();
   drawChart();
 });

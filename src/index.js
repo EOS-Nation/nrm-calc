@@ -214,6 +214,7 @@ exponent.addEventListener('change', function () {
 
 powerUp.addEventListener('change', function () {
   enforceMinMax(this);
+  powerupSlider.noUiSlider.set([this.value]);
   updateMs();
   drawChart();
 });

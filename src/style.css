@@ -1,14 +1,37 @@
 body {
-    font-family: sans-serif;
-    padding: 20px;
-  }
+  font-family: sans-serif;
+  padding: 20px;
+  margin-left: 20%;
+  margin-right: 20%;
+}
 
-  input {
-    padding: 6px;
-    font-size: 14px;
-    width: 50%;
-    border-radius: 4px;
-    box-shadow: none;
-    border: 1px solid rgb(206, 212, 218);
-    margin-bottom: 15px;
-  }
+input {
+  padding: 7px;
+  margin: 15px 5px 5px;
+  width: 100px;
+  font-size: 14px;
+  border-radius: 4px;
+  box-shadow: none;
+  border: 1px solid rgb(206, 212, 218);
+}
+
+fieldset {
+  padding: 20px;
+  margin: 5px 5px 5px;
+  border-color: #ccc;
+  border-radius: 4px;
+  border-style: solid;
+  font-size:14px
+}
+
+#slider-prices {
+  margin: 15px 5px 5px;
+}
+
+#slider-powerup {
+  margin: 15px 5px 55px;
+}
+
+#input-exponent {
+  width: 40px;
+}

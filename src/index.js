@@ -45,7 +45,7 @@ var options = {
   },
   title: {
     display: true,
-    text: "Price to reserve",
+    text: "Fee to reserve",
   },
   elements: {
       point:{
@@ -70,7 +70,7 @@ var options = {
     yAxes: [{
       scaleLabel: {
         display: true,
-        labelString: 'Price, EOS'
+        labelString: 'Fee, EOS'
       },
       ticks: {
         beginAtZero: true
@@ -103,7 +103,7 @@ function drawChart() {
 
   var prices = calcPrices(min*10000, max*10000, expo, delta/100);
   var data = chartJsData(prices);
-  options.title.text = `Price to reserve ${delta}% of network capacity for 24H`;
+  options.title.text = `Fee to reserve ${delta}% of network capacity for 24H`;
   if (window.chart) {
     window.chart.data = data;
     window.chart.options = options;

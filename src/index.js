@@ -19,7 +19,7 @@ var calcPrices = function (minPrice, maxPrice, exponent, delta) {
     var coefficient = (maxPrice - minPrice) / exponent;
     var start_u   = util;
     var end_u     = util + delta;
-    price = minPrice * (end_u - start_u) + coefficient * (Math.pow(end_u, exponent) - Math.pow(start_u, exponent));
+    var price = minPrice * (end_u - start_u) + coefficient * (Math.pow(end_u, exponent) - Math.pow(start_u, exponent));
     res.push({x: util, y: price/10000});
   }
   return res;
@@ -31,7 +31,7 @@ var options = {
   },
   title: {
     display: true,
-    text: "Price to rent",
+    text: "Price to reserve",
   },
   elements: {
       point:{
@@ -89,7 +89,7 @@ function drawChart() {
 
   var prices = calcPrices(min*10000, max*10000, expo, delta/100);
   var data = chartJsData(prices);
-  options.title.text = `Price to rent ${delta}% of network capacity for 24 hours`;
+  options.title.text = `Price to reserve ${delta}% of network capacity for 24H`;
   if (window.chart) {
     window.chart.data = data;
     window.chart.options = options;
@@ -111,11 +111,19 @@ function msToMinutesAndSeconds(ms) {
   return ms.toFixed(0) + " ms";
 }
 
-function updateMs() {
+function bytesToXBytes(bytes) {
+  if(Math.floor(bytes/(1024*1024*1024))) return (bytes/(1024*1024*1024)).toFixed(2) + " GB";
+  if(Math.floor(bytes/(1024*1024))) return (bytes/(1024*1024)).toFixed(2) + " MB";
+  if(Math.floor(bytes/(1024))) return (bytes/(1024)).toFixed(2) + " KB";
+  return bytes.toFixed(0) + " B";
+}
+
+function updateCPUNET() {
 
   var delta = parseFloat(powerUp.value);
   var ms = 200 * 2 * 60 * 60 * 24 * delta / 100;
-  document.getElementById('powerup-ms').innerHTML = ` equals ~${msToMinutesAndSeconds(ms)} in CPU`;
+  var bytes = 1024*1024 * 2 * 60 * 60 * 24 * delta / 100;
+  document.getElementById('powerup-cpunet').innerHTML = ` equals ~ ${msToMinutesAndSeconds(ms)} CPU or ${bytesToXBytes(bytes)} NET per 24H `;
 }
 
 function enforceMinMax(el){
@@ -160,7 +168,7 @@ powerupSlider.noUiSlider.on('update', function (values, handle) {
   var value = parseFloat(values[handle]);
   if(value < this.options.range.min[0]) value = this.options.range.min[0];
   powerUp.value = value;
-  updateMs();
+  updateCPUNET();
 
 });
 
@@ -217,7 +225,7 @@ powerUp.addEventListener('change', function () {
   var value = parseFloat(this.value);
   if(100*value == Math.ceil(100*value)) //slider has 2 decimal points resolution
     powerupSlider.noUiSlider.set([this.value]);
-  updateMs();
+  updateCPUNET();
   drawChart();
 });
 powerUp.dispatchEvent(new Event('change'));

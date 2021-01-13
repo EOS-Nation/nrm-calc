@@ -25,6 +25,20 @@ var calcPrices = function (minPrice, maxPrice, exponent, delta) {
   return res;
 };
 
+//EOS Argentina formula - https://docs.google.com/document/d/11Eqc4y48NkoMXlgDxAhjRnEbStCWe6S6-RJCmJuEiaI/editz
+var calcPrices2 = function (minPrice, C, exponent, delta) {
+  const res = new Array();
+  var k1 = (C - minPrice) / 99;
+  var k2 = k1 - minPrice;
+  for(let util = 0; util + delta <= 1; util += 0.01)
+  {
+    var price = k1/(1 - util) - k2 * util;
+    res.push({x: util, y: price/10000});
+  }
+  return res;
+};
+
+
 var options = {
   legend: {
     display: false

@@ -115,6 +115,7 @@ function drawChart() {
       data: data
     });
   }
+  window.history.replaceState(null, null, window.location.pathname+'?&powerup='+powerUp.value+'&minprice='+minPrice.value+'&maxprice='+maxPrice.value+'&exponent='+exponent.value);
 };
 
 function msToMinutesAndSeconds(ms) {
@@ -130,6 +131,21 @@ function bytesToXBytes(bytes) {
   if(Math.floor(bytes/(1024*1024))) return (bytes/(1024*1024)).toFixed(2) + " MB";
   if(Math.floor(bytes/(1024))) return (bytes/(1024)).toFixed(2) + " KB";
   return bytes.toFixed(0) + " B";
+}
+
+function parseUrl(url)  //workaround for edge that doesn't support URLSearchParams
+{
+    if (url == "") return {};
+    const ret = {};
+    for (var part of url)
+    {
+        const par=part.split('=', 2);
+        if (par.length == 1)
+            ret[par[0]] = "";
+        else
+            ret[par[0]] = decodeURIComponent(par[1].replace(/\+/g, " "));
+    }
+    return ret;
 }
 
 function updateCPUNET() {
@@ -242,6 +258,13 @@ powerUp.addEventListener('change', function () {
   updateCPUNET();
   drawChart();
 });
+
+const url = parseUrl(window.location.search.substr(1).split('&'));
+if(url['powerup']) powerUp.value = url['powerup'];
+if(url['minprice']) minPrice.value = url['minprice'];
+if(url['maxprice']) maxPrice.value = url['maxprice'];
+if(url['exponent']) exponent.value = url['exponent'];
+
 powerUp.dispatchEvent(new Event('change'));
 
 drawChart();

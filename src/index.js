@@ -175,10 +175,17 @@ var powerUp = document.getElementById('input-powerup');
 var exponent = document.getElementById('input-exponent');
 
 
+const url = parseUrl(window.location.search.substr(1).split('&'));
+powerUp.value = url['powerup'] || 4;
+minPrice.value = url['minprice'] || 10000;
+maxPrice.value = url['maxprice'] || 400000;
+exponent.value = url['exponent'] || 4;
+
+
 noUiSlider.create(powerupSlider, {
   connect: [true, false],
   behaviour: 'drag-tap',
-  start: [0.1],
+  start: [powerUp.value],
   range: {
       'min': [0.00001],
       '50%': [1],
@@ -210,7 +217,7 @@ powerupSlider.noUiSlider.on('end', function (values, handle) {
 noUiSlider.create(priceSlider, {
   connect: true,
   behaviour: 'drag-tap',
-  start: [10000, 400000],
+  start: [minPrice.value, maxPrice.value],
   range: {
       'min': 0,
       'max': 1000000
@@ -259,11 +266,6 @@ powerUp.addEventListener('change', function () {
   drawChart();
 });
 
-const url = parseUrl(window.location.search.substr(1).split('&'));
-if(url['powerup']) powerUp.value = url['powerup'];
-if(url['minprice']) minPrice.value = url['minprice'];
-if(url['maxprice']) maxPrice.value = url['maxprice'];
-if(url['exponent']) exponent.value = url['exponent'];
 
 powerUp.dispatchEvent(new Event('change'));
 

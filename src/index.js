@@ -176,7 +176,7 @@ var exponent = document.getElementById('input-exponent');
 
 
 const url = parseUrl(window.location.search.substr(1).split('&'));
-powerUp.value = url['powerup'] || 4;
+powerUp.value = url['powerup'] || 0.1;
 minPrice.value = url['minprice'] || 10000;
 maxPrice.value = url['maxprice'] || 400000;
 exponent.value = url['exponent'] || 4;
@@ -219,8 +219,16 @@ noUiSlider.create(priceSlider, {
   behaviour: 'drag-tap',
   start: [minPrice.value, maxPrice.value],
   range: {
-      'min': 0,
-      'max': 1000000
+    'min': [0],
+    '50%': [100000],
+    '70%': [1000000],
+    'max': [1000000000]
+  },
+  pips: {
+    mode: 'values',
+    values: [0, 100000, 1000000, 1000000000],
+    density: 4,
+    stepped: true
   }
 });
 
